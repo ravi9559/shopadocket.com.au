@@ -3,13 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  const link = document.querySelector('a');
-link.href = fixUrl(link.href);
-
-function fixUrl(url) {
-  const origin = window.location.origin.replace(/https:\/\/(.*?)\//, 'https://$1/shopadocket.com.au/');
-  return url.replace(window.location.origin, origin);
-}
+  
 
   fetch("data/offer.json")
     .then((response) => response.json())
@@ -31,6 +25,7 @@ function fixUrl(url) {
   // Create offer card with name and images
   function createOfferCard(offer, images) {
     const offerCard = document.createElement("div");
+    console.log(window.location.href);
     offerCard.className = "container mt-5";
     offerCard.innerHTML = `
         <div class="row my-3 "> 
@@ -38,7 +33,10 @@ function fixUrl(url) {
             <h2 class="text-dark ">${offer.replace(/-/g, " ")}</h2>
           </div>
           <div class="col-md-6 d-none d-md-block ">
-            <a href="${fixUrl(window.location.origin + '/offers.html?category=' + encodeURIComponent(offer))}" class="btn  loginbtn float-end">View more</a>
+            <a href="         
+            /offers.html?category=${encodeURIComponent(
+      offer
+    )}" class="btn  loginbtn float-end">View more</a>
           </div>
         </div>
         <div id="${offer}-slider" class="carousel carousel-dark slide" data-bs-ride="carousel" >
