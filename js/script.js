@@ -46,9 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${images.length > 5 ? generateCarouselControls(offer) : ""}
         </div>
         <div class="col  d-md-none d-flex flex-column align-items-center text-center   mt-3 ">
-            <a href="${
-              window.location.origin
-            }/offers.html?category=${encodeURIComponent(
+            <a href="offers.html?category=${encodeURIComponent(
       offer
     )}" class="btn  loginbtn float-end">View more</a>
           </div>
@@ -144,9 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const categoryListItem = document.createElement("li");
         const categoryLink = document.createElement("a");
         categoryLink.textContent = category.category.replace(/-/g, " ");
-        categoryLink.href = `${
-          window.location.origin
-        }/offers.html?category=${encodeURIComponent(category.category)}`;
+        categoryLink.href = `offers.html?category=${encodeURIComponent(category.category)}`;
         categoryLink.classList.add("dropdown-item", "text-dark");
         categoryListItem.appendChild(categoryLink);
         catMobileDropdown.appendChild(categoryListItem);
@@ -179,9 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const categoryItem = document.createElement("li");
           const categoryLink = document.createElement("a");
           categoryLink.className = "nav-link text-dark";
-          categoryLink.href = `${
-            window.location.origin
-          }/offers.html?category=${encodeURIComponent(category.category)}`;
+          categoryLink.href = `offers.html?category=${encodeURIComponent(category.category)}`;
           categoryLink.textContent = category.category.replace(/-/g, " ");
           categoryItem.appendChild(categoryLink);
           categoryList.appendChild(categoryItem);
@@ -202,9 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const categoryListItem = document.createElement("li");
       const categoryLink = document.createElement("a");
       categoryLink.textContent = category.category.replace(/-/g, " ");
-      categoryLink.href = `${
-        window.location.origin
-      }/offers.html?category=${encodeURIComponent(category.category)}`;
+      categoryLink.href = `offers.html?category=${encodeURIComponent(category.category)}`;
       categoryLink.classList.add("nav-link", "text-dark");
       categoryListItem.appendChild(categoryLink);
       ul.appendChild(categoryListItem);
