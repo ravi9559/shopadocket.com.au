@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <h2 class="text-dark ">${offer.replace(/-/g, " ")}</h2>
           </div>
           <div class="col-md-6 d-none d-md-block ">
-            <a href="         
-            /offers.html?category=${encodeURIComponent(
+            <a href="  
+            offers.html?category=${encodeURIComponent(
       offer
     )}" class="btn  loginbtn float-end">View more</a>
           </div>
