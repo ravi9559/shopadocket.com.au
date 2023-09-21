@@ -1,0 +1,129 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.loginbtn,
+.joinbtn {
+  border-radius: 15px 0 !important;
+}
+
+.joinbtn i{
+  color: #fff;
+}
+
+
+.facebookbtn {
+  background: #3b5998 !important;
+}
+footer a {
+  color: #fff;
+}
+
+footer a:hover {
+  color: #59718b;
+}
+
+main i {
+  color: #f15131;
+}
+
+footer img {
+  width: 60%;
+}
+.icon {
+  width: 25px;
+}
+
+
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+.payment-option.selected {
+  background-color: #343a40;
+  color: white;
+  border-color: #343a40;
+}
+
+.loginbtn {
+  background-color: #fff;
+  color: #ea0029;
+  border: 1px solid #ea0029;
+}
+
+
+.loginbtn:hover {
+  border-radius: 15px 0 !important;
+  background-color: #ea0029;
+  color: #fff;
+}
+
+.loginbtn:hover i{
+  border-radius: 15px 0 !important;
+  background-color: #ea0029;
+  color: #fff;
+}
+
+.page-item.active .page-link {
+  color: #fff !important;
+  background-color: #ea0029 !important;
+  border-color: #ea0029;
+
+  box-shadow: none;
+}
+
+.page-item.active .page-link:hover {
+  color: #fff !important;
+  background-color: #ea0029 !important;
+  border-color: #ea0029;
+}
+
+.card {
+  display: flex !important;
+  flex-direction: column !important;
+  
+  height: 100% !important;
+  
+}
+
+
+
+ 
+ 
+
+/* Customize the carousel control buttons and center them */
+
+.carousel {
+  position: relative;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5%;
+  width: 40px;
+  height: 60px;
+  font-size: 24px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+
+.nav-pills .nav-link.active  {
+  background-color: #ea0029; 
+  color: #fff !important; 
+}
+
+
+ .nav-link.active  i {
+ 
+  color: #fff !important; 
+}

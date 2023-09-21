@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Shopa Marketing</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <link
+      href="vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="css/custom.css" />
+
+    <title>Your Website</title>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <!-- Desktop Header -->
+    <header class="d-none d-md-block">
+      <div class="top-bar">
+        <div class="container d-none d-md-block">
+          <div class="row">
+            <div class="col-md-12 p-0">
+              <div
+                class="d-flex justify-content-between align-items-center p-4"
+              >
+                <!-- Left side of the desktop header -->
+                <div>
+                  <a class="navbar-brand" href="index.html">
+                    <img
+                      src="images/download (6).png"
+                      alt="Logo"
+                      class="img-fluid"
+                      style="max-width: 250px"
+                    />
+                  </a>
+                </div>
+                <!-- Right side of the desktop header -->
+                <div>
+                  <div class="input-group border">
+                    <span class="input-group-text bg-white border-0">
+                      <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control border-0 no-outline"
+                      placeholder="Enter your location"
+                      aria-label="Search"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+        <div class="container">
+          <!-- Navbar Items -->
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item dropdown position-static ms-2">
+                <a
+                  class="nav-link fs-5 text-white text-sm text-xs dropdown-toggle border-end border-3"
+                  href="#"
+                  id="megaMenuDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Categories
+                </a>
+
+                <!-- mega menu  start-->
+
+                <div
+                  class="dropdown-menu mega-menu mx-5"
+                  aria-labelledby="megaMenuDropdown"
+                >
+                 
+                </div>
+              </li>
+
+              <!-- mega menu  end-->
+
+              <li class="nav-item px-2">
+                <a class="nav-link fs-5 text-white text-md text-nowrap" href="how-it-works.html" >How it works</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link fs-5 text-white text-sm text-xs text-nowrap"
+                  href="help-and-faqs.html"
+                  >Help & FAQs</a
+                >
+              </li>
+
+              <li class="nav-item px-2">
+                <a
+                  class="nav-link fs-5 text-white text-sm text-xs text-nowrap"
+                  href="https://shopagroup.com/about-us/shopa-docket/" target="_blank"
+                  >Advertise with us</a
+                >
+              </li>
+              <li class="nav-item px-2">
+                <a
+                  class="nav-link fs-5 text-white text-sm text-xs text-md"
+                  href="https://blog.shopadocket.com.au/" target="_blank"
+                  >Blog</a
+                >
+              </li>
+            </ul>
+
+            <div class="d-flex">
+              <a href="contact.html"
+                type="button"
+                class="btn btn-danger fs-5 text-nowrap text-sm d-none d-lg-block"
+              >
+                <i class="fas fa-user-alt"></i>&nbsp; Get in Touch
+            </a>
+
+              <span
+                type="button"
+                class="btn btn-danger fs-5 text-nowrap text-sm d-none d-md-block d-sm-block d-lg-none"
+                ><i class="fas fa-mobile-alt"></i
+              ></span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header d-md-none">
+      <nav class="navbar navbar-expand-lg bg-danger">
+        <div class="container">
+          <button
+            class="navbar-toggler text-white border-0"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#mobileMenu"
+            aria-controls="mobileMenu"
+          >
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </button>
+          <a class="navbar-brand" href="index.html">
+            <img
+              src="images/white-logo.png"
+              alt="Logo"
+              style="max-width: 250px"
+          /></a>
+        </div>
+      </nav>
+      <!-- Off-canvas Menu -->
+      <div
+        class="offcanvas offcanvas-start"
+        id="mobileMenu"
+        tabindex="-1"
+        aria-labelledby="mobileMenuLabel"
+      >
+        <div class="offcanvas-header">
+          <img
+            src="images/download (6).png"
+            alt="Logo"
+            class="img-fluid"
+            style="max-width: 250px"
+          />
+
+          <button
+            type="button"
+            class="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Categories</a
+              >
+              <ul class="dropdown-menu border-0" aria-labelledby="cat-dropdown" id="catMobileDropdown">
+                <li><a class="dropdown-item" href="#">Featured Offers</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">Food & Restaurants</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Hair & Beauty</a></li>
+                <li><a class="dropdown-item" href="#">Health & Fitness </a></li>
+                <li><a class="dropdown-item" href="#">Alcohol & Liquor </a></li>
+                <li><a class="dropdown-item" href="#">Shopping & Retail</a></li>
+
+                <li>
+                  <a class="dropdown-item" href="#">Travel & Holidays </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    >Entertainment & Adventure
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Trades & Services </a>
+                </li>
+                <li><a class="dropdown-item" href="#">Tyres & Auto </a></li>
+                <li><a class="dropdown-item" href="#"> Gift & Other </a></li>
+
+                <li><a class="dropdown-item" href="#"> </a></li>
+                <li><a class="dropdown-item" href="#"> </a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="how-it-works.html">How it works</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="help-and-faqs.html">Help & FAQs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://shopagroup.com/about-us/shopa-docket/" target="_blank">Advertise with us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://blog.shopadocket.com.au/" target="_blank">Blog</a>
+            </li>
+          </ul>
+        </div>
+        <div class="offcanvas-footer ps-3">
+          <p>
+            &copy; <span id="mobileCurrentYear"></span> Shopa Marketing LLC. All
+            rights reserved
+          </p>
+        </div>
+      </div>
+    </header>
+
+
+    
+    <!-- Footer -->
+    <footer class="footer mt-auto bg-light pt-5">
+        <div class="container-fluid border-top border-bottom py-4  ">
+          <div class=" d-flex  flex-wrap  justify-content-evenly ">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3   ">
+              <h5>SHOPA DOCKET</h5>
+              <ul class="list-unstyled text-nowrap">
+                <li>
+                  <a class="nav-link text-dark" href="#"
+                    >How Shopa Docket Works</a
+                  >
+                </li>
+                <li><a class="nav-link text-dark" href="#">About Us</a></li>
+                <li><a class="nav-link text-dark" href="#">Stores</a></li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Advertise With Us</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Shopa Docket Blog</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Privacy Policy</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Terms & Conditions</a>
+                </li>
+  
+                <li>
+                  <a class="nav-link text-dark" href="#">Support & FAQs</a>
+                </li>
+              </ul>
+            </div>
+            <div class=" col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+              <h5>CONNECT WITH US</h5>
+              <p>Contact Us</p>
+              <div class="btn-group mb-3" role="group" aria-label="Share buttons">
+                <a
+                  href="https://www.facebook.com/ShopADocket"
+                  class="btn btn-outline-light text-dark"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a
+                  href="mailto:customerservice@shopadocket.com.au"
+                  class="btn btn-outline-light text-dark"
+                >
+                  <i class="fas fa-envelope"></i>
+                </a>
+              </div>
+              <h5>COMPETITIONS</h5>
+              <ul class="list-unstyled text-nowrap">
+                <li>
+                  <a class="nav-link text-dark" href="#"
+                    >Competitions and Lotteries</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+              <h5>CATEGORIES</h5>
+              <ul class="list-unstyled text-nowrap">
+                <li>
+                  <a class="nav-link text-dark" href="#">Featured Offers</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Food & Restaurants</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Hair & Beauty</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Health & Fitness</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Alcohol & Liquor</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Shopping & Retail</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Travel & Holidays</a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#"
+                    >Entertainment & Adventure</a
+                  >
+                </li>
+                <li>
+                  <a class="nav-link text-dark" href="#">Trades & Services</a>
+                </li>
+                <li><a class="nav-link text-dark" href="#">Tyres & Auto</a></li>
+                <li><a class="nav-link text-dark" href="#">Gift & Other</a></li>
+              </ul>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+              <h5>POPULAR LOCATIONS</h5>
+              <ul class="list-unstyled text-nowrap">
+                <li><a class="nav-link text-dark" href="#">Adelaide</a></li>
+                <li><a class="nav-link text-dark" href="#">Brisbane</a></li>
+                <li><a class="nav-link text-dark" href="#">Canberra</a></li>
+                <li><a class="nav-link text-dark" href="#">Darwin</a></li>
+                <li><a class="nav-link text-dark" href="#">Hobart</a></li>
+                <li><a class="nav-link text-dark" href="#">Melbourne</a></li>
+                <li><a class="nav-link text-dark" href="#">Perth</a></li>
+                <li><a class="nav-link text-dark" href="#">Sydney</a></li>
+              </ul>
+            </div>
+          </div>
+        </div> 
+  
+        <div class="container my-auto bg-light pt-3">
+          <div class="text-center">
+            <p>
+              &copy; <span id="desktopCurrentYear"></span> Shopa Marketing LLC.
+              All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+  
+      <!-- End of Footer --> 
+
+    <!-- End of Footer -->
+    <!--  Scripts -->
+    <script src="js/script.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
