@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="card ">
                   <a href="${
                     cards[j].url.startsWith("coupon/")
-                      ? `coupon.html?id=${cards[j].id}`
+                      ? `/coupon/coupon.html?id=${cards[j].id}`
                       : cards[j].url
                   }" target="_blank" class="text-decoration-none">
                     <img src="images/${
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   <div class="card-body">
                     <a href="${
                       cards[j].url.startsWith("coupon/")
-                        ? `coupon.html?id=${cards[j].id}`
+                        ? `/coupon/coupon.html?id=${cards[j].id}`
                         : cards[j].url
                     }" target="_blank" class="text-decoration-none">
                       <h5 class="card-title text-danger fs-6 fw-semibold">${
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </a>
                     <a href="${
                       cards[j].url.startsWith("coupon/")
-                        ? `coupon.html?id=${cards[j].id}`
+                        ? `/coupon/coupon.html?id=${cards[j].id}`
                         : cards[j].url
                     }" target="_blank" class="text-decoration-none">
                       <p class="card-text text-dark">${cards[j].advertiser}.</p>

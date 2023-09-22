@@ -3,7 +3,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 
 // Load the JSON data from your file (you may need to adjust the path)
-fetch("data/coupon.json")
+fetch("../data/coupon.json")
   .then((response) => response.json())
   .then((data) => {
     // Find the coupon object with the matching 'id'
@@ -55,7 +55,7 @@ fetch("data/coupon.json")
         <div class="row py-2">
           <div class="col-lg-4">
             <img
-              src="images/${advertiser.image}.jpg"
+              src="../images/${advertiser.image}.jpg"
               class="img-fluid rounded m-3"
               alt="${advertiser.Headline} with ${advertiser.Advertiser}"
             />
