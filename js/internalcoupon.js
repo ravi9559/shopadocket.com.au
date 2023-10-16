@@ -75,10 +75,10 @@ fetch("../data/coupon.json")
               ${setCTAs}
               <div class="d-flex justify-content-between">
                 <div>
-                  <a class="mt-3 btn btn-outline-light text-dark" href="#"
-                    ><i class="fa fa-fw fa-print"></i> Print Offer</a
-                  >
+                <a class="mt-3 btn btn-outline-light text-dark" href="#" onclick="generateAndPrintCode()"><i class="fa fa-fw fa-print"></i> Print Offer</a>
+                <div id="codeDisplay" style="display: none;"></div>
                 </div>
+                
               </div>
             </div>
           </div>
@@ -195,3 +195,39 @@ fetch("../data/coupon.json")
   .catch((error) => {
     console.error("Error fetching JSON data:", error);
   });
+
+
+  function generateAndPrintCode() {
+    // Generate a random 7-digit code
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    var randomCode = randomString(7, characters, 'xxx-xxxx');
+  
+    // Display the code on the page
+    var codeDisplay = document.getElementById("codeDisplay");
+    codeDisplay.innerHTML = "Random Code: " + randomCode;
+    codeDisplay.style.display = "block";
+  
+    // Trigger the print dialog
+    window.print();
+  }
+  
+  function generateRandomCode(length) {
+    var characters = "0123456789";
+    var code = "";
+    for (var i = 0; i < length; i++) {
+      var randomIndex = Math.floor(Math.random() * characters.length);
+      code += characters.charAt(randomIndex);
+    }
+    return code;
+  }
+  
+  function randomString(length, chars, format) {
+    var result = '';
+    for (var i = 0; i < length; ++i) {
+      result += chars[Math.round(Math.random()) * (chars.length - 1)];
+      if (format && i === 2) {
+        result += '-';
+      }
+    }
+    return result;
+  }
