@@ -193,7 +193,7 @@ footer img {
 .dropdown-menu .col-md-auto a:hover .d-flex {
   background-color:  var(--bs-tertiary-bg);
   color: #ea0029;
-  box-shadow: 4px 4px #c9c8c8;
+  box-shadow: 3px 3px 10px #c9c8c8;
   
 }
 
