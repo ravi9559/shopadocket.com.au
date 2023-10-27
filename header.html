@@ -11,6 +11,7 @@
       type="text/css"
     />
     <link rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   </head>
   <body>
      <!-- Desktop Header -->
@@ -52,81 +53,57 @@
           </div>
         </div>
       </div>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+      
+      <nav class="navbar navbar-expand-lg shadow-lg bg-danger text-white">
         <div class="container">
-          <!-- Navbar Items -->
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                  <li class="nav-item dropdown  px-2 ">
+                    <a class="nav-link dropdown-toggle text-white fs-5 " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu  px-3 rounded-3 border-0 shadow mega-menu">
+                       
+                    </div>
+                </li>
+                    <li class="nav-item px-2" >
+                        <a class="nav-link fs-5 text-white text-sm text-xs text-nowrap"  href="how-it-works.html">How it works</a>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a class="nav-link fs-5 text-white text-sm text-xs text-nowrap" href="help-and-faqs.html"> Help & FAQs</a>
+                    </li>
 
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item dropdown position-static ms-2">
+                    <li class="nav-item px-2">
+                      <a class="nav-link fs-5 text-white text-sm text-xs text-nowrap" href="advertise-with-us.html"> Advertise with us </a>
+                  </li>
+                  <li class="nav-item px-2">
+                    <a class="nav-link fs-5 text-white text-sm text-xs text-nowrap"  href="#"> Blog</a>
+                </li>
+                    
+                    
+                </ul>
                 <a
-                  class="nav-link fs-5 text-white text-sm text-xs dropdown-toggle border-end border-3"
-                  href="#"
-                  id="megaMenuDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Categories
-                </a>
-
-                <!-- mega menu  start-->
-
-                <div
-                  class="dropdown-menu mega-menu mx-5"
-                  aria-labelledby="megaMenuDropdown"
-                >
-                 
-                </div>
-              </li>
-
-              <!-- mega menu  end-->
-
-              <li class="nav-item px-2">
-                <a class="nav-link fs-5 text-white text-md text-nowrap" href="how-it-works.html" >How it works</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link fs-5 text-white text-sm text-xs text-nowrap"
-                  href="help-and-faqs.html"
-                  >Help & FAQs</a
-                >
-              </li>
-
-              <li class="nav-item px-2">
-                <a
-                  class="nav-link fs-5 text-white text-sm text-xs text-nowrap"
-                  href="advertise-with-us.html" 
-                  >Advertise with us</a
-                >
-              </li>
-              <li class="nav-item px-2">
-                <a
-                  class="nav-link fs-5 text-white text-sm text-xs text-md"
-                  href="https://blog.shopadocket.com.au/" target="_blank"
-                  >Blog</a
-                >
-              </li>
-            </ul>
-
-            <div class="d-flex">
-              <a href="contact.html"
+                href="contact.html"
                 type="button"
                 class="btn btn-danger fs-5 text-nowrap text-sm d-none d-lg-block"
               >
                 <i class="fas fa-user-alt"></i>&nbsp; Get in Touch
-            </a>
+              </a>
 
-              <span
-                type="button"
-                class="btn btn-danger fs-5 text-nowrap text-sm d-none d-md-block d-sm-block d-lg-none"
-                ><i class="fas fa-mobile-alt"></i
-              ></span>
             </div>
-          </div>
         </div>
-      </nav>
+    </nav>
+
+
+
+
+
     </header>
 
     <!-- Mobile Header -->
@@ -178,12 +155,15 @@
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
-                
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 >Categories</a
               >
-              <ul class="dropdown-menu border-0" aria-labelledby="cat-dropdown" id="catMobileDropdown">
+              <ul
+                class="dropdown-menu border-0"
+                aria-labelledby="cat-dropdown"
+                id="catMobileDropdown"
+              >
                 <li><a class="dropdown-item" href="#">Featured Offers</a></li>
                 <li>
                   <a class="dropdown-item" href="#">Food & Restaurants</a>
@@ -218,10 +198,17 @@
               <a class="nav-link" href="help-and-faqs.html">Help & FAQs</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="advertise-with-us.html" >Advertise with us</a>
+              <a class="nav-link" href="advertise-with-us.html"
+                >Advertise with us</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="https://blog.shopadocket.com.au/" target="_blank">Blog</a>
+              <a
+                class="nav-link"
+                href="https://blog.shopadocket.com.au/"
+                target="_blank"
+                >Blog</a
+              >
             </li>
           </ul>
         </div>
@@ -237,6 +224,6 @@
     <!-- Your content goes here -->
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/megamenu.js"></script>
   </body>
 </html>

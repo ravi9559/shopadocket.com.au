@@ -1,3 +1,4 @@
+
 body {
   font-family: Arial, sans-serif;
 }
@@ -90,7 +91,6 @@ footer img {
 
 
  
- 
 
 /* Customize the carousel control buttons and center them */
 
@@ -126,4 +126,85 @@ footer img {
  .nav-link.active  i {
  
   color: #fff !important; 
+}
+
+
+
+@media print {
+  .container {
+    width: 100% !important; 
+    max-width: none !important; 
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+} 
+.copyright{
+
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+}
+
+.highlighted {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+
+
+.nav-link {
+  position: relative;
+  
+  overflow: hidden;
+}
+.nav-link::before {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  transform: translate(-100%, 0) rotate(50deg);
+  transform-origin: top left;
+  transition: all 0.35s;
+  background-color: #b02a37;
+  z-index: -1;
+  content: "";
+}
+.nav-link:hover {
+  color: #fff;
+  border-color: #b02a37;
+  z-index: 1;
+}
+.nav-link:hover::before {
+  transform: translate(0, 0);
+}
+
+
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: #000000;
+}
+.dropdown-menu a .d-flex {
+  transition: all 0.5s;
+}
+.dropdown-menu .col-md-auto a:hover .d-flex {
+  background-color:  var(--bs-tertiary-bg);
+  color: #ea0029;
+  box-shadow: 1px 4px #c9c8c8;
+  
+}
+
+@media only screen and (min-width: 992px) {
+  .dropdown-menu {
+    width: 800px;
+  }
+  .dropdown:hover .dropdown-menu {
+    display: flex;
+  }
+  .dropdown-menu.show {
+    display: flex;
+  }
 }
