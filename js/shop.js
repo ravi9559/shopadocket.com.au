@@ -1,60 +1,117 @@
-// script.js
+const parentCategory = document.getElementById('parentCategory');
+const subCategoryCheckboxes = document.getElementById('subCategoryCheckboxes');
+const categoryCheckboxes = document.getElementById('categoryCheckboxes');
+const brandCheckboxes = document.getElementById('brandCheckboxes');
+const priceCheckboxes = document.getElementById('priceCheckboxes');
+const productListing = document.getElementById('productListing');
+const pagination = document.getElementById('pagination');
 
-document.addEventListener('DOMContentLoaded', function () {
-    const parentCategoryFilter = document.getElementById('parentCategoryFilter');
-    const subCategoryFilter = document.getElementById('subCategoryFilter');
-    const categoryFilter = document.getElementById('categoryFilter');
-    const brandFilter = document.getElementById('brandFilter');
-    const priceRangeFilter = document.getElementById('priceRangeFilter');
-    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
-    const productListing = document.getElementById('productListing');
+let offerdata = [];
+let data;
 
-    // Fetch data from shoppingoffers.json
-    fetch('data/shop.json')
-        .then(response => response.json())
-        .then(data => {
-            // Populate filters with options
-             populateFilterOptions(parentCategoryFilter, getParentCategories(data.CategoryGroups.ParentCategories));
-            populateFilterOptions(brandFilter, getUniqueBrands(data.ShoppingOffers));
-            populateFilterOptions(priceRangeFilter, getUniquePriceRanges(data.ShoppingOffers));
+const checkboxesContainer = document.getElementById("filtersForm");
 
-            // Event listener for parent category change
-            parentCategoryFilter.addEventListener('change', function () {
-                const selectedParentCategory = parentCategoryFilter.value;
-                // Populate subcategory filter based on the selected parent category
-                populateFilterOptions(subCategoryFilter, getSubcategories(selectedParentCategory, data.CategoryGroups.ParentCategories));
-            });
+async function getProduct() {
+    try {
+        const response = await fetch('data/shop.json');
+        if (!response.ok) {
+            window.location.href = "../404.html";
+        }
 
-            // Event listener for applying filters
-            applyFiltersBtn.addEventListener('click', function () {
-                const selectedParentCategory = parentCategoryFilter.value;
-                const selectedSubCategory = subCategoryFilter.value;
-                const selectedCategory = categoryFilter.value;
-                const selectedBrand = brandFilter.value;
-                const selectedPriceRange = priceRangeFilter.value;
+         data = await response.json();
+        offerdata = data.ShoppingOffers;
 
-                // Filter products based on selected filters
-                const filteredProducts = filterProducts(selectedParentCategory, selectedSubCategory, selectedCategory, selectedBrand, selectedPriceRange, data.ShoppingOffers);
+        getUniqueParentcategory(data.CategoryGroups.ParentCategories);
+        // getUniqueSubcategory(data.CategoryGroups.ParentCategories);
+        // getUniqueCategories(data.CategoryGroups.ParentCategories);
+        getUniqueBrands(data.Brands);
+        getUniquePriceRanges(data.PriceRanges);
 
-                // Display filtered products
-                displayProducts(filteredProducts);
-            });
+        filter(offerdata);
 
-            // Initial product listing
-            displayProducts(data.ShoppingOffers);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+getProduct();
+
+
+
+
+
+
+
+
+// checkboxesContainer.addEventListener("change", function (event) {
+//     if (event.target.type === "checkbox" && event.target.classList.contains("filter-checkbox")) {
+     
+//         filter();
+//     }
+// });
+
+
+
+checkboxesContainer.addEventListener("change", function (event) {
+    if (
+        (event.target.type === "checkbox" || event.target.type === "radio") &&
+        (event.target.classList.contains("filter-checkbox") || event.target.classList.contains("filter-radio"))
+    ) {
+        filter();
+        
+    }
 });
 
-// Function to populate filter options
-function populateFilterOptions(selectElement, value) {
-    selectElement.innerHTML = `<input type="checkbox" value="" id="parentCategoryFilter" checked="">
-    <label for="shop-filter-checkbox_1">Adidas</label>`
-    value.forEach(option => {
-        const optionElement = document.createElement('option');
-        optionElement.value = option;
-        optionElement.text = option;
-        selectElement.add(optionElement);
+
+// Add an event listener for changes in Parent Category radio
+parentCategory.addEventListener("change", function (event) {
+    if (event.target.type === "radio" && event.target.classList.contains("filter-radio")) {
+        // Call a function to update Sub Categories and Categories based on the selected Parent Category
+        updateSubCategoriesAndCategories(event.target.value);
+        
+        filter(); // Trigger the filter function after updating checkboxes
+    }
+});
+
+
+
+
+function generateCheckboxes(data, container, labelKey) {
+    const uniqueSet = new Set(data.map(item => item[labelKey]));
+
+    uniqueSet.forEach(value => {
+        
+        container.innerHTML += `
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input filter-checkbox" name="${value}" id="${value}" value="${value}">
+                <label class="form-check-label" for="${value}">${value}</label>
+            </div>
+        `;
+    });
+}
+
+
+
+
+function generateRadioButtons(data, container, labelKey) {
+    const uniqueSet = new Set(data.map(item => item[labelKey]));
+
+    // Add "All" as the default and selected option
+    container.innerHTML += `
+        <div class="form-check">
+            <input type="radio" class="form-check-input filter-radio" name="${labelKey}" id="all${labelKey}" value="all" checked>
+            <label class="form-check-label" for="all${labelKey}">All</label>
+        </div>
+    `;
+
+    uniqueSet.forEach(value => {
+       
+        container.innerHTML += `
+            <div class="form-check">
+                <input type="radio" class="form-check-input filter-radio" name="${labelKey}" id="${value}" value="${value}">
+                <label class="form-check-label" for="${value}">${value}</label>
+            </div>
+        `;
     });
 }
 
@@ -62,358 +119,366 @@ function populateFilterOptions(selectElement, value) {
 
 
 
-// // Function to populate filter options
-// function populateFilterOptions(selectElement, options) {
-//     selectElement.innerHTML = '<option value="">All</option>';
-//     options.forEach(option => {
-//         const optionElement = document.createElement('option');
-//         optionElement.value = option;
-//         optionElement.text = option;
-//         selectElement.add(optionElement);
+
+
+function getUniqueParentcategory(parentCat) {
+    // generateCheckboxes(parentCat, parentCategory, "ParentCategory");
+    generateRadioButtons(parentCat, parentCategory, "ParentCategory");
+}
+
+
+
+
+function updateSubCategoriesAndCategories(selectedParentCategory) {
+    // Find the selected parent category in the data
+    const selectedParent = data.CategoryGroups.ParentCategories.find(item => item.ParentCategory === selectedParentCategory);
+    
+    // Clear existing checkboxes
+    clearSubCategoriesCheckboxes();
+    clearCategoriesCheckboxes();
+
+    // Check if the selected parent category is found
+    if (selectedParent) {
+        // Update Sub Categories checkboxes
+        if (selectedParent.SubCategories) {
+            
+            generateCheckboxes(selectedParent.SubCategories, subCategoryCheckboxes, "SubCategory");
+            generateHeading(selectedParentCategory, subCategoryCheckboxes, "Sub Categories");
+        } else {
+            console.error("SubCategories are missing or undefined for the selected parent category.");
+        }
+
+        // Update Categories checkboxes
+        if (selectedParent.SubCategories && selectedParent.SubCategories.length > 0 && selectedParent.SubCategories[0].Categories) {
+           
+            generateCheckboxes(selectedParent.SubCategories[0].Categories, categoryCheckboxes, "Category");
+            generateHeading(selectedParentCategory, categoryCheckboxes, "Categories");
+        } else {
+            console.error("Categories are missing or undefined for the selected parent category.");
+        }
+    } else {
+        console.error("Selected parent category not found in CategoryGroups.ParentCategories array.");
+    }
+}
+
+
+
+function clearSubCategoriesCheckboxes() {
+    // Clear existing Sub Categories checkboxes
+    subCategoryCheckboxes.innerHTML = "";
+}
+
+function clearCategoriesCheckboxes() {
+    // Clear existing Categories checkboxes
+    categoryCheckboxes.innerHTML = "";
+}
+
+
+
+
+
+function generateHeading(selectedParentCategory, container, type) {
+    const heading = document.createElement("lable");
+    heading.textContent = ` ${type}`; // Customize the heading text as needed
+    container.insertBefore(heading, container.firstChild);
+}
+
+
+function getUniqueSubcategory(subcat) {
+    const uniqueSubcategories = [];
+
+    subcat.forEach(parentCategory => {
+        parentCategory.SubCategories.forEach(subcategory => {
+            if (!uniqueSubcategories.some(item => item.SubCategory === subcategory.SubCategory)) {
+                uniqueSubcategories.push(subcategory);
+            }
+        });
+    });
+
+
+    generateCheckboxes(uniqueSubcategories, subCategoryCheckboxes, "SubCategory");
+}
+
+function getUniqueCategories(categories) {
+    const allCategories = [];
+
+    categories.forEach(parentCategory => {
+        parentCategory.SubCategories.forEach(subcategory => {
+            allCategories.push(...subcategory.Categories);
+        });
+    });
+
+        generateCheckboxes(allCategories, categoryCheckboxes, "Category");
+}
+
+
+
+
+function getUniqueBrands(brands) {
+
+    generateCheckboxes(brands, brandCheckboxes, "Brand");
+}
+
+function getUniquePriceRanges(priceRanges) {
+
+    generateCheckboxes(priceRanges, priceCheckboxes, "PriceRange");
+   
+}
+
+
+
+
+// function filter() {
+//     const checkedBoxes = document.querySelectorAll("input[type='checkbox']:checked");
+
+//     if (!checkedBoxes || checkedBoxes.length === 0) {
+//         console.log("No filters selected. Displaying all products.");
+//         displayProducts(offerdata);
+//         return;
+//     }
+
+//     const filters = Array.from(checkedBoxes).map(checkbox => ({
+//         value: checkbox.value,
+//         name: checkbox.name
+//     }));
+
+//     const filteredData = offerdata.filter(item => {
+//         return filters.some(filter => {
+//             return (
+//                 item.ParentCategory === filter.value ||
+//                 item.SubCategory === filter.value ||
+//                 item.Category === filter.value ||
+//                 item.Brand === filter.value ||
+//                 item.PriceRange === filter.value
+//             );
+//         });
 //     });
+
+//     if (filteredData.length > 0) {
+//         console.log("Displaying products:", filteredData);
+//         displayProducts(filteredData);
+//     } else {
+//         productListing.innerHTML = `<p class="text-center">"Unfortunately, we couldn't find any offers that match your current filter selections. "</p>
+//             <p class="text-center">Please try adjusting your filters to see more results.</p>`;
+//         pagination.innerHTML = "";
+//     }
 // }
 
-// Function to get unique parent categories
-function getParentCategories(parentCategories) {
-    return parentCategories.map(category => category.ParentCategory);
+
+
+// function filter() {
+//     const checkedInputs = document.querySelectorAll("input[type='checkbox']:checked, input[type='radio']:checked");
+
+//     const showAll = Array.from(checkedInputs).some(input => input.type === 'radio' && input.value === 'all');
+
+//     if (!checkedInputs || checkedInputs.length === 0 || showAll) {
+//         console.log("No filters selected. Displaying all products.");
+//         displayProducts(offerdata);
+//         return;
+//     }
+
+   
+
+//     const filters = Array.from(checkedInputs).map(input => ({
+//         value: input.value,
+//         name: input.name
+//     }));
+
+//     const filteredData = offerdata.filter(item => {
+//         return filters.some(filter => {
+//             return (
+//                 item.ParentCategory === filter.value ||
+//                 item.SubCategory === filter.value ||
+//                 item.Category === filter.value ||
+//                 item.Brand === filter.value ||
+//                 item.PriceRange === filter.value
+//             );
+//         });
+//     });
+
+//     if (filteredData.length > 0) {
+//         console.log("Displaying products:", filteredData);
+//         displayProducts(filteredData);
+//     } else {
+//         productListing.innerHTML = `<p class="text-center">"Unfortunately, we couldn't find any offers that match your current filter selections. "</p>
+//             <p class="text-center">Please try adjusting your filters to see more results.</p>`;
+//         pagination.innerHTML = "";
+//     }
+// }
+
+
+
+
+function filter() {
+    const checkedInputs = document.querySelectorAll("input[type='checkbox']:checked, input[type='radio']:checked");
+    const showAll = Array.from(checkedInputs).some(input => input.type === 'radio' && input.value === 'all');
+
+    if (!checkedInputs || checkedInputs.length === 0  )  {
+       
+        displayProducts(offerdata);
+        return;
+    }
+
+    
+    if (showAll) {
+        console.log("Radio button 'All' selected. Displaying all products.");
+        displayProducts(offerdata);
+        return;
+    }
+    
+
+    const filters = Array.from(checkedInputs).map(input => ({
+        value: input.value,
+        name: input.name
+    }));
+
+    const filteredData = offerdata.filter(item => {
+        return filters.every(filter => {
+            // Check if the filter matches any of the properties (parent category, sub-category, or category)
+            return (
+                item.ParentCategory === filter.value ||
+                item.SubCategory === filter.value ||
+                item.Category === filter.value ||
+                item.Brand === filter.value ||
+                item.PriceRange === filter.value
+            );
+        });
+    });
+
+    if (filteredData.length > 0 ) {
+             displayProducts(filteredData);
+    } else {
+        productListing.innerHTML = `<p class="text-center">"Unfortunately, we couldn't find any offers that match your current filter selections. "</p>
+            <p class="text-center">Please try adjusting your filters to see more results.</p>`;
+        pagination.innerHTML = "";
+    }
 }
 
-// Function to get subcategories based on parent category
-function getSubcategories(parentCategory, parentCategories) {
-    const category = parentCategories.find(category => category.ParentCategory === parentCategory);
-    return category ? category.SubCategories.map(subCategory => subCategory.SubCategory) : [];
-}
 
-// Function to get unique brands
-function getUniqueBrands(products) {
-    return [...new Set(products.map(product => product.Brand))];
-}
 
-// Function to get unique price ranges
-function getUniquePriceRanges(products) {
-    return [...new Set(products.map(product => product.PriceRange))];
-}
 
-// Function to filter products based on selected filters
-function filterProducts(parentCategory, subCategory, category, brand, priceRange, products) {
-    return products.filter(product => (
-        (parentCategory === '' || product.ParentCategory === parentCategory) &&
-        (subCategory === '' || product.SubCategory === subCategory) &&
-        (category === '' || product.Category === category) &&
-        (brand === '' || product.Brand === brand) &&
-        (priceRange === '' || product.PriceRange === priceRange)
-    ));
-}
 
-// Function to render data on the page
+
+
+
+
 function displayProducts(results) {
-	pagination.innerHTML = "";
+    
+    pagination.innerHTML = "";
 
-	if (results.length === 0) {
+    if (results.length === 0) {
         productListing.innerHTML = '';
-	} else {
-		const cardsPerPage = 8;
-		let currentPage = 1;
-		const maxVisiblePages = 10;
+    } else {
+        const cardsPerPage = 8;
+        let currentPage = 1;
+        const maxVisiblePages = 10;
 
-		// Create a pagination element with previous and next buttons
-		const nav = document.createElement("nav");
-		const ul = document.createElement("ul");
-		ul.classList.add("pagination");
-		nav.appendChild(ul);
+        const nav = document.createElement("nav");
+        const ul = document.createElement("ul");
+        ul.classList.add("pagination");
+        nav.appendChild(ul);
 
-		// Function to update the page numbers
-		function updatePageNumbers() {
-			ul.innerHTML = "";
+        function updatePageNumbers() {
+            ul.innerHTML = "";
+            const numPages = Math.ceil(results.length / cardsPerPage);
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(numPages, startPage + maxVisiblePages - 1);
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
 
-			// Calculate the range of page numbers to display
-			const numPages = Math.ceil(results.length / cardsPerPage);
-			let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-			let endPage = Math.min(numPages, startPage + maxVisiblePages - 1);
-			startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            if (currentPage > 1) {
+                const previousLi = document.createElement("li");
+                previousLi.classList.add("page-item");
+                const previousLink = document.createElement("a");
+                previousLink.classList.add("page-link", "text-dark");
+                previousLink.href = "#";
+                previousLink.textContent = "Previous";
+                previousLi.appendChild(previousLink);
+                ul.appendChild(previousLi);
 
-			// Create a previous button
-			if (currentPage > 1) {
-				const previousLi = document.createElement("li");
-				previousLi.classList.add("page-item");
-				const previousLink = document.createElement("a");
-				previousLink.classList.add("page-link", "text-dark");
-				previousLink.href = "#";
-				previousLink.textContent = "Previous";
-				previousLi.appendChild(previousLink);
-				ul.appendChild(previousLi);
+                previousLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage--;
+                    updatePageNumbers();
+                    displayCards();
+                });
+            }
 
-				previousLink.addEventListener("click", (e) => {
-					e.preventDefault();
-					currentPage--;
-					updatePageNumbers();
-					displayCards();
-				});
-			}
+            for (let page = startPage; page <= endPage; page++) {
+                const li = document.createElement("li");
+                li.classList.add("page-item");
+                const a = document.createElement("a");
+                a.classList.add("page-link", "text-dark");
+                a.href = "#";
+                a.textContent = page;
+                li.appendChild(a);
+                ul.appendChild(li);
 
-			// Create page number buttons
-			for (let page = startPage; page <= endPage; page++) {
-				const li = document.createElement("li");
-				li.classList.add("page-item");
-				const a = document.createElement("a");
-				a.classList.add("page-link", "text-dark");
-				a.href = "#";
-				a.textContent = page;
-				li.appendChild(a);
-				ul.appendChild(li);
+                a.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage = page;
+                    updatePageNumbers();
+                    displayCards();
+                });
 
-				a.addEventListener("click", (e) => {
-					e.preventDefault();
-					currentPage = page;
-					updatePageNumbers();
-					displayCards();
-				});
+                if (page === currentPage) {
+                    li.classList.add("active");
+                }
+            }
 
-				if (page === currentPage) {
-					li.classList.add("active");
-				}
-			}
+            if (currentPage < numPages) {
+                const nextLi = document.createElement("li");
+                nextLi.classList.add("page-item");
+                const nextLink = document.createElement("a");
+                nextLink.classList.add("page-link", "text-dark");
+                nextLink.href = "#";
+                nextLink.textContent = "Next";
+                nextLi.appendChild(nextLink);
+                ul.appendChild(nextLi);
 
-			// Create a next button
-			if (currentPage < numPages) {
-				const nextLi = document.createElement("li");
-				nextLi.classList.add("page-item");
-				const nextLink = document.createElement("a");
-				nextLink.classList.add("page-link", "text-dark");
-				nextLink.href = "#";
-				nextLink.textContent = "Next";
-				nextLi.appendChild(nextLink);
-				ul.appendChild(nextLi);
+                nextLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage++;
+                    updatePageNumbers();
+                    displayCards();
+                });
+            }
+        }
 
-				nextLink.addEventListener("click", (e) => {
-					e.preventDefault();
-					currentPage++;
-					updatePageNumbers();
-					displayCards();
-				});
-			}
-		}
+        function headlineLimit(text, maxCharacters) {
+            return text.length > maxCharacters ? text.substring(0, maxCharacters) + "..." : text;
+        }
 
-		function headlineLimit(text, maxCharacters) {
-			if (text.length > maxCharacters) {
-				return text.substring(0, maxCharacters) + "...";
-			} else {
-				return text;
-			}
-		}
-
-		// Function to display the cards for the current page
-		function displayCards() {
+        function displayCards() {
             productListing.innerHTML = "";
+            const startIndex = (currentPage - 1) * cardsPerPage;
+            const endIndex = Math.min(currentPage * cardsPerPage, results.length);
 
-			const startIndex = (currentPage - 1) * cardsPerPage;
-			const endIndex = Math.min(currentPage * cardsPerPage, results.length);
+            for (let i = startIndex; i < endIndex; i++) {
+                if (results[i]) {
+                    const product = results[i];
 
-			// Display the cards for the current page
-			for (let i = startIndex; i < endIndex; i++) {
-				if (results[i]) {
-					const product = results[i];
+                    const cardColumn = document.createElement("div");
+                    cardColumn.classList.add("col-md-3", "mb-3");
 
-					const cardColumn = document.createElement("div");
-					cardColumn.classList.add("col-md-3", "mb-3");
+                    const card = document.createElement("div");
+                    card.classList.add("card", "mb-3");
 
-					const card = document.createElement("div");
-					card.classList.add("card", "mb-3");
-
-					card.innerHTML = `
-        <a href="${product.Link}" class="text-decoration-none">
-            <img src="images/${
-						product.ImageFilename
-					}" class="card-img-top" alt="..."> 
-
-            <div class="card-body">
-                <h5 class="card-title text-danger fs-6 fw-semibold  mb-3"> ${headlineLimit(
-									product.Headline,
-									30
-								)}</h5>
-                <h6 class="card-subtitle text-dark fw-semibold mb-2"> ${headlineLimit(
-									product.AdvertiserName,
-									30
-								)}</h6>
-                
-                
-            </div>
-        </a>`;
-					cardColumn.appendChild(card);
+                    card.innerHTML = `
+                        <a href="${product.Link}" class="text-decoration-none">
+                            <img src="images/${product.ImageFilename}" class="card-img-top" alt="..."> 
+                            <div class="card-body">
+                                <h5 class="card-title text-danger fs-6 fw-semibold mb-3">${headlineLimit(product.Headline, 30)}</h5>
+                                <h6 class="card-subtitle text-dark fw-semibold mb-2">${headlineLimit(product.AdvertiserName, 30)}</h6>
+                            </div>
+                        </a>`;
+                    cardColumn.appendChild(card);
                     productListing.appendChild(cardColumn);
-				}
-			}
-		}
+                }
+            }
+        }
 
-		updatePageNumbers();
-		displayCards();
-		pagination.appendChild(nav);
-	}
+        updatePageNumbers();
+        displayCards();
+        pagination.appendChild(nav);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-// // Function to display products
-// function displayProducts(products) {
-//     const productListing = document.getElementById('productListing');
-//     productListing.innerHTML = '';
-
-//     products.forEach(product => {
-//         const card = document.createElement('div');
-//         card.classList.add('card', 'mb-3');
-
-//         card.innerHTML = `
-//             <img src="images/${product.ImageFilename}" class="card-img-top" alt="${product.Headline}">
-//             <div class="card-body">
-//                 <h5 class="card-title">${product.Headline}</h5>
-//                 <p class="card-text">${product.Brand}</p>
-//                 <p class="card-text">${product.PriceRange}</p>
-//                 <a href="${product.Link}" class="btn btn-primary">Visit Store</a>
-//             </div>
-//         `;
-
-//         productListing.appendChild(card);
-//     });
-// }
-
-
-
-
-
-
-// import {JSON_ROOT_URL, AFFILIATE_IMG_ROOT_URL} from "../../js/sd.js";
-
-// const featuredJsonUrl = `${JSON_ROOT_URL}affiliate.json`;
-
-// const affiliateCardsContainer = document.getElementById("affiliateCardsContainer");
-// const pagination = document.getElementById("pagination");
-// // Function to fetch JSON data
-// function fetchData(callback) {
-// 	fetch(featuredJsonUrl)
-// 		.then((response) => response.json())
-// 		.then((data) => callback(data.Affiliates))
-// 		.catch((error) => console.error("Error fetching data:", error));
-// }
-
-// // Function to filter and render data based on FeaturedCategory
-// function filterData(category) {
-// 	fetchData((data) => {
-// 		affiliateCardsContainer.innerHTML = ""; // Clear previous content
-
-// 		if (category === "Show All") {
-// 			displayResults(data);
-// 		} else {
-// 			//const filteredData = data.filter((item) => item.FeaturedCategory === category);
-// 			const filteredData = data.filter((item) => {
-// 				return item.FeaturedCategories.some((cat) => cat.FeaturedCategory === category);
-// 			});
-// 			displayResults(filteredData);
-// 		}
-// 	});
-// }
-
-// // Function to dynamically create category buttons
-// function createCategoryButtons(categories) {
-// 	const buttonContainer = document.getElementById("categoryButtons");
-
-// 	categories.forEach((category) => {
-// 		const button = document.createElement("button");
-// 		button.classList.add("btn", "btn-outline-danger", "me-3", "mb-3");
-// 		button.textContent = category;
-// 		button.addEventListener("click", () => {
-// 			filterData(category);
-// 			setActiveButton(button);
-// 			updateBreadcrumb(category);
-// 			updatePageHeading(category);
-// 		});
-// 		buttonContainer.appendChild(button);
-// 		// Set 'active' class on the "All" button by default
-// 		if (category === "Show All") {
-// 			button.classList.add("active");
-// 		}
-// 	});
-// }
-
-// // Function to set the active state for the clicked button
-// function setActiveButton(clickedButton) {
-// 	const buttons = document.getElementsByTagName("button");
-// 	for (const button of buttons) {
-// 		button.classList.remove("active");
-// 	}
-// 	clickedButton.classList.add("active");
-// }
-
-// // Function to update breadcrumb based on the selected category
-// function updateBreadcrumb(category) {
-// 	const breadcrumbNav = document.getElementById("breadcrumbNav");
-// 	const breadcrumbCategory = document.getElementById("breadcrumbCategory");
-
-// 	// Change breadcrumb link and text based on the selected category
-// 	if (category === "Show All") {
-// 		breadcrumbCategory.textContent = "Featured Offers";
-// 		breadcrumbCategory.removeAttribute("aria-current");
-// 		breadcrumbNav.innerHTML = `
-//                 <ol class="breadcrumb">
-//                     <li class="breadcrumb-item"><a class="text-danger text-decoration-none" href="/">Home</a></li>
-//                     <li class="breadcrumb-item active" id="breadcrumbCategory" aria-current="page">Featured Offers</li>
-//                 </ol>`;
-// 	} else {
-// 		breadcrumbCategory.textContent = category;
-// 		breadcrumbCategory.setAttribute("aria-current", "page");
-// 		breadcrumbNav.innerHTML = `
-//                 <ol class="breadcrumb">
-//                     <li class="breadcrumb-item"><a class="text-danger text-decoration-none" href="/">Home</a></li>
-//                     <li class="breadcrumb-item"><a class="text-danger text-decoration-none" href="/featured">Featured Offers</a></li>
-//                     <li class="breadcrumb-item active" id="breadcrumbCategory" aria-current="page">${category}</li>
-//                 </ol>`;
-// 	}
-// }
-
-// // Function to update the page heading based on the selected category
-// function updatePageHeading(category) {
-// 	const pageHeading = document.getElementById("pageHeading");
-
-// 	if (category === "Show All") {
-// 		pageHeading.textContent = "Featured Offers";
-// 	} else {
-// 		pageHeading.textContent = category;
-// 	}
-// }
-
-
-
-// // Initial rendering of all data
-// fetchData((data) => {
-	
-// 	const categoryCounts = {};
-// 	const customOrder = ["Show All", "Women's Fashion", "Men's Fashion"];
-
-// 	data.forEach((item) => {
-// 		item.FeaturedCategories.forEach((category) => {
-// 			const cat = category.FeaturedCategory;
-// 			if (cat!=="null" && cat !== "Other" && !customOrder.includes(cat)) {
-// 				categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-// 			}
-// 		});
-// 	});
-
-// 	// Sort categories based on custom order and frequency
-// 	const sortedCategories = customOrder.concat(
-// 		Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]),
-// 		"Other"
-// 	);
-
-// 	// Create category buttons
-// 	createCategoryButtons(sortedCategories);
-
-// 	// Display results
-// 	displayResults(data);
-// });
