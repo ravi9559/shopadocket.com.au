@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce Page with Filters</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Add any additional styling here */
+  </style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <h4>Filters</h4>
+       <!-- Parent Category Filter -->
+
+      <div id="parentCategoryFilters"></div>
+      <!-- Sub Category Filter -->
+        <div id="subcategoryFilters"></div>
+
+      <!-- Category Filter -->
+      <h6>Category</h6>
+      <div id="categoryFilters"></div>
+
+      <!-- Brand Filter -->
+      <h6>Brand</h6>
+      <div id="brandFilters"></div>
+
+      <!-- Price Filter -->
+      <h6>Price</h6>
+      <div id="priceFilters"></div>
+    </div>
+
+    <div class="col-md-9">
+      <h4>Products</h4>
+      <div id="productList"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Update the Popper.js script source to the latest version -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- <script>
+  async function fetchShopData() {
+    try {
+      const response = await fetch('data/shop.json');
+      const jsonData = await response.json();
+
+      // Call the function to initialize filters and display products
+      initializePage(jsonData);
+    } catch (error) {
+      console.error('Error fetching shop data:', error);
+    }
+  }
+
+  fetchShopData();
+
+  function initializePage(data) {
+  // Function to generate checkbox list
+  function generateCheckboxList(containerId, items, onChange) {
+    const container = document.getElementById(containerId);
+
+    items.forEach(item => {
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = item;
+      checkbox.id = `${containerId}_${item}`;
+      checkbox.addEventListener('change', onChange);
+
+      const label = document.createElement('label');
+      label.htmlFor = `${containerId}_${item}`;
+      label.appendChild(document.createTextNode(item));
+
+      container.appendChild(checkbox);
+      container.appendChild(label);
+      container.appendChild(document.createElement('br'));
+    });
+  }
+
+  // Function to filter products based on selected filters
+  function filterProducts() {
+    const selectedParentCategories = getSelectedValues('ParentCategoryFilters');
+    const selectedCategories = getSelectedValues('categoryFilters');
+    const selectedBrands = getSelectedValues('brandFilters');
+    const selectedPrices = getSelectedValues('priceFilters');
+
+    const filteredProducts = data.ShoppingOffers.filter(product => 
+      (selectedCategories.length === 0 || selectedCategories.includes(product.Category)) &&
+      (selectedBrands.length === 0 || selectedBrands.includes(product.Brand)) &&
+      (selectedPrices.length === 0 || selectedPrices.includes(product.PriceRange))
+    );
+
+    displayProducts(filteredProducts);
+  }
+
+  // Function to get selected values from checkboxes
+  function getSelectedValues(containerId) {
+    const checkboxes = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
+    return Array.from(checkboxes).map(checkbox => checkbox.value);
+  }
+
+  // Function to display products
+  function displayProducts(products) {
+    const productList = document.getElementById('productList');
+    productList.innerHTML = '';
+
+    if (products.length === 0) {
+      productList.innerHTML = '<p>No products found.</p>';
+      return;
+    }
+
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.classList.add('card', 'mb-3');
+
+      card.innerHTML = `
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="images/${product.ImageFilename}" class="card-img" alt="${product.Headline}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">${product.Headline}</h5>
+              <p class="card-text">Category: ${product.Category}</p>
+              <p class="card-text">Brand: ${product.Brand}</p>
+              <p class="card-text">Price Range: ${product.PriceRange}</p>
+              <a href="${product.Link}" class="btn btn-primary">View Product</a>
+            </div>
+          </div>
+        </div>
+      `;
+
+      productList.appendChild(card);
+    });
+  }
+
+  // Initialize filters
+  generateCheckboxList('ParentCategoryFilters', data.CategoryGroups.ParentCategories.map(category => category.ParentCategory), filterProducts);
+  generateCheckboxList('categoryFilters', data.CategoryGroups.ParentCategories[0].SubCategories.map(category => category.ParentCategory), filterProducts);
+  generateCheckboxList('brandFilters', data.Brands.map(brand => brand.Brand), filterProducts);
+  generateCheckboxList('priceFilters', data.PriceRanges.map(price => price.PriceRange), filterProducts);
+ 
+
+  // Display all products initially
+  displayProducts(data.ShoppingOffers);
+}
+</script> -->
+
+
+<script>
+  // Function to fetch JSON data
+  async function fetchShopData() {
+    try {
+      const response = await fetch('data/shop.json');
+      const jsonData = await response.json();
+
+      // Call the function to initialize filters and display products
+      initializePage(jsonData);
+    } catch (error) {
+      console.error('Error fetching shop data:', error);
+    }
+  }
+
+  // Function to generate checkbox list
+  function generateCheckboxList(containerId, items, onChange) {
+    const container = document.getElementById(containerId);
+
+    items.forEach(item => {
+      // Check for duplicates
+      if (!document.getElementById(`${containerId}_${item}`)) {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = item;
+        checkbox.id = `${containerId}_${item}`;
+        checkbox.addEventListener('change', onChange);
+
+        const label = document.createElement('label');
+        label.htmlFor = `${containerId}_${item}`;
+        label.appendChild(document.createTextNode(item));
+
+        container.appendChild(checkbox);
+        container.appendChild(label);
+        container.appendChild(document.createElement('br'));
+      }
+    });
+  }
+
+  // Function to initialize filters and display products
+  function initializePage(data) {
+    // Generate checkboxes for ParentCategories
+    generateCheckboxList('parentCategoryFilters', data.CategoryGroups.ParentCategories.map(category => category.ParentCategory), filterProducts);
+
+    // Generate checkboxes for SubCategories
+    generateCheckboxList('subcategoryFilters', data.CategoryGroups.ParentCategories.flatMap(category => category.SubCategories.map(subcategory => subcategory.SubCategory)), filterProducts);
+
+    // Generate checkboxes for Categories
+    generateCheckboxList('categoryFilters', data.CategoryGroups.ParentCategories.flatMap(category => category.SubCategories.map(subcategory => subcategory.Categories.map(category => category.Category))).flat(), filterProducts);
+
+    // Generate checkboxes for Brands and Prices
+    generateCheckboxList('brandFilters', data.Brands.map(brand => brand.Brand), filterProducts);
+    generateCheckboxList('priceFilters', data.PriceRanges.map(price => price.PriceRange), filterProducts);
+
+    // Display all products initially
+    displayProducts(data.ShoppingOffers);
+  }
+
+  // Function to filter products based on selected filters
+  function filterProducts() {
+    const selectedParentCategories = getSelectedValues('parentCategoryFilters');
+    const selectedSubcategories = getSelectedValues('subcategoryFilters');
+    const selectedCategories = getSelectedValues('categoryFilters');
+    const selectedBrands = getSelectedValues('brandFilters');
+    const selectedPrices = getSelectedValues('priceFilters');
+
+    const filteredProducts = data.ShoppingOffers.filter(product => 
+      (selectedParentCategories.length === 0 || selectedParentCategories.includes(product.ParentCategory)) &&
+      (selectedSubcategories.length === 0 || selectedSubcategories.includes(product.SubCategory)) &&
+      (selectedCategories.length === 0 || selectedCategories.includes(product.Category)) &&
+      (selectedBrands.length === 0 || selectedBrands.includes(product.Brand)) &&
+      (selectedPrices.length === 0 || selectedPrices.includes(product.PriceRange))
+    );
+
+    displayProducts(filteredProducts);
+  }
+
+  // Function to get selected values from checkboxes
+  function getSelectedValues(containerId) {
+    const checkboxes = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
+    return Array.from(checkboxes).map(checkbox => checkbox.value);
+  }
+
+  // Function to display products
+  function displayProducts(products) {
+    const productList = document.getElementById('productList');
+    productList.innerHTML = '';
+
+    if (products.length === 0) {
+      productList.innerHTML = '<p>No products found.</p>';
+      return;
+    }
+
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.classList.add('card', 'mb-3');
+
+      card.innerHTML = `
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="images/${product.ImageFilename}" class="card-img" alt="${product.Headline}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">${product.Headline}</h5>
+              <p class="card-text">Parent Category: ${product.ParentCategory}</p>
+              <p class="card-text">SubCategory: ${product.SubCategory}</p>
+              <p class="card-text">Category: ${product.Category}</p>
+              <p class="card-text">Brand: ${product.Brand}</p>
+              <p class="card-text">Price Range: ${product.PriceRange}</p>
+              <a href="${product.Link}" class="btn btn-primary">View Product</a>
+            </div>
+          </div>
+        </div>
+      `;
+
+      productList.appendChild(card);
+    });
+  }
+
+  // Call the function to fetch JSON data and initialize the page
+  fetchShopData();
+</script>
+
+<!-- Rest of your HTML remains the same -->
+</body>
+</html>
